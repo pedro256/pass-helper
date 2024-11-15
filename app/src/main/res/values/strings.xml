@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">PassHelp</string>
+    <string name="app_title">Pass Helper</string>
+    <string name="label_username">Usuário</string>
+    <string name="label_password">Senha</string>
+    <string name="label_connect">Conectar</string>
+    <string name="label_back">Voltar</string>
+    <string name="text_idh_account">Eu não tenho conta</string>
+    <string name="label_home">Principal</string>
+    <string name="label_regst_user">Registrar Usuário</string>
+    <string name="label_new_secret">Criar Senha</string>
+    <string name="label_regist">Registrar</string>
+    <string name="label_name">Nome</string>
+    <string name="label_more">Mais</string>
+    <string name="label_title">Título</string>
+    <string name="label_new">Novo</string>
+    <string name="label_complement">Complemento</string>
+    <string name="label_create">Criar</string>
+    <string name="label_options">Opções</string>
+    <string name="msg_confirm_decision">Deseja confirmar ação?</string>
+    <string name="label_edit">Editar</string>
+    <string name="label_delete">Deleter</string>
+    <string name="label_confirm">Confirmar</string>
+    <string name="label_cancel">Cancelar</string>
+    <string name="label_details">Detalhes</string>
+
+</resources>

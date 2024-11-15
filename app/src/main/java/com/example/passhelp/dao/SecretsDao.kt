@@ -1,0 +1,82 @@
+package com.example.passhelp.dao
+
+import android.content.ContentValues
+import android.content.Context
+import com.example.passhelp.database.DBContract
+import com.example.passhelp.database.DBHelper
+import com.example.passhelp.model.SecretsModel
+
+class SecretsDao(context:Context) {
+    private val dbHelper = DBHelper(context)
+
+    fun listAllByUserId(idUser:Int):MutableList<SecretsModel>{
+        val db =dbHelper.readableDatabase;
+        val columns = arrayOf(
+            DBContract.Secrets.COL_ID,
+            DBContract.Secrets.COL_USERNAME,
+            DBContract.Secrets.COL_TITLE
+        )
+        val select = "${DBContract.Secrets.COL_USER_ID} = ?"
+        val selectArgs = arrayOf(
+            idUser.toString()
+        )
+        val cursor = db.query(
+            DBContract.Secrets.TABLE_NAME,
+            columns,
+            select,
+            selectArgs,
+            null,null,null
+        )
+        val list = mutableListOf<SecretsModel>();
+        if(cursor.count>0){
+            cursor.moveToFirst()
+            do{
+                val idIndex = cursor.getColumnIndex(DBContract.Secrets.COL_ID)
+                val titleIndex = cursor.getColumnIndex(DBContract.Secrets.COL_TITLE)
+                val userNameIndex = cursor.getColumnIndex(DBContract.Secrets.COL_USERNAME)
+
+                val id = cursor.getInt(idIndex)
+                val title = cursor.getString(titleIndex)
+                val username = cursor.getString(userNameIndex)
+
+                list.add(SecretsModel(
+                    id,
+                    title,
+                    username,
+                    "",
+                    "",
+                    idUser
+                ))
+            }while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return list;
+    }
+
+    fun createSecret(secret:SecretsModel):Long{
+        val db =dbHelper.writableDatabase;
+        val values = ContentValues().apply {
+            put(DBContract.Secrets.COL_TITLE,secret.title)
+            put(DBContract.Secrets.COL_USERNAME,secret.username)
+            put(DBContract.Secrets.COL_PASSWORD,secret.password)
+            put(DBContract.Secrets.COL_COMPLEMENT,secret.complement)
+            put(DBContract.Secrets.COL_USER_ID,secret.userId)
+        }
+        val id = db.insert(DBContract.Secrets.TABLE_NAME,null,values)
+        db.close()
+        return id;
+    }
+
+    fun deleteSecret(id:Int):Boolean{
+        val db = dbHelper.writableDatabase;
+        val selectArgs = arrayOf(id.toString())
+        db.delete(
+            DBContract.Secrets.TABLE_NAME,
+            "${DBContract.Secrets.COL_ID} = ?",
+            selectArgs
+        )
+        db.close()
+        return true;
+    }
+}
