@@ -73,19 +73,17 @@ class HomeFragment : Fragment() {
 
             rclVwSecrets.adapter = SecretsAdapter(scretList,
                 onItemAreaClick = { secret:SecretsModel ->
-                    val secretDetailsBttSheet = SecretDetailsBottomSheetFragment(secret)
+                    val secretDetailsBttSheet = SecretDetailsBottomSheetFragment(secret,false)
                     secretDetailsBttSheet.show(parentFragMan,"SecretItemOptions")
                 },
                 onItemOptionsClick = { secret:SecretsModel ->
                     val secretOptBottomSheet = SecretOptionsBottomSheetFragment(secret)
                     secretOptBottomSheet.setOnEditClickListener {
-                        showDialogConfirm(
-                            it,
-                            onClickConfirm = {
-                                Toast.makeText(it,"Editar",Toast.LENGTH_SHORT).show()
-                            },
-                            onClickCancel = {}
-                        )
+                        val secretDetailsBttSheet = SecretDetailsBottomSheetFragment(secret,true)
+                        secretDetailsBttSheet.show(parentFragMan,"SecretItemOptions")
+                        secretDetailsBttSheet.setOnEditConfirmListener {
+                            this.onStart()
+                        }
                     }
                     secretOptBottomSheet.setOnDeleteClickListener { id:Int ->
                         showDialogConfirm(

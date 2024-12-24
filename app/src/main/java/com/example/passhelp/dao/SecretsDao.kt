@@ -14,7 +14,9 @@ class SecretsDao(context:Context) {
         val columns = arrayOf(
             DBContract.Secrets.COL_ID,
             DBContract.Secrets.COL_USERNAME,
-            DBContract.Secrets.COL_TITLE
+            DBContract.Secrets.COL_TITLE,
+            DBContract.Secrets.COL_PASSWORD,
+            DBContract.Secrets.COL_COMPLEMENT
         )
         val select = "${DBContract.Secrets.COL_USER_ID} = ?"
         val selectArgs = arrayOf(
@@ -34,17 +36,22 @@ class SecretsDao(context:Context) {
                 val idIndex = cursor.getColumnIndex(DBContract.Secrets.COL_ID)
                 val titleIndex = cursor.getColumnIndex(DBContract.Secrets.COL_TITLE)
                 val userNameIndex = cursor.getColumnIndex(DBContract.Secrets.COL_USERNAME)
+                val passwordIndex =  cursor.getColumnIndex(DBContract.Secrets.COL_PASSWORD)
+                val detailsIndex =  cursor.getColumnIndex(DBContract.Secrets.COL_COMPLEMENT)
+
 
                 val id = cursor.getInt(idIndex)
                 val title = cursor.getString(titleIndex)
                 val username = cursor.getString(userNameIndex)
+                val pass = cursor.getString(passwordIndex)
+                val complemt = cursor.getString(detailsIndex)
 
                 list.add(SecretsModel(
                     id,
                     title,
                     username,
-                    "",
-                    "",
+                    pass,
+                    complemt,
                     idUser
                 ))
             }while (cursor.moveToNext())
@@ -66,6 +73,23 @@ class SecretsDao(context:Context) {
         val id = db.insert(DBContract.Secrets.TABLE_NAME,null,values)
         db.close()
         return id;
+    }
+    fun updateSecret(secret:SecretsModel):Long{
+        val db =dbHelper.writableDatabase;
+        val values = ContentValues().apply {
+            put(DBContract.Secrets.COL_TITLE,secret.title)
+            put(DBContract.Secrets.COL_USERNAME,secret.username)
+            put(DBContract.Secrets.COL_PASSWORD,secret.password)
+            put(DBContract.Secrets.COL_COMPLEMENT,secret.complement)
+        }
+        val id = db.update(
+            DBContract.Secrets.TABLE_NAME,
+            values,
+            "${DBContract.Secrets.COL_ID} = ?",
+            arrayOf(secret.id.toString())
+        )
+        db.close()
+        return secret.id.toLong();
     }
 
     fun deleteSecret(id:Int):Boolean{

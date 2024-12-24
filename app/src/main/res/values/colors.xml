@@ -6,4 +6,5 @@
     <color name="primary_900">#3134ca</color>
     <color name="secondary_900">#00c397</color>
     <color name="neutro_900">#A3A2A2</color>
+    <color name="danger_900">#F0AD4E</color>
 </resources>
