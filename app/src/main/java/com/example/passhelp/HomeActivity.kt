@@ -70,14 +70,6 @@ class HomeActivity : AppCompatActivity() {
             goToMain()
         }
 
-
-//        btnNewSecret = this.findViewById(R.id.btnNew)
-
-
-
-//        btnNewSecret.setOnClickListener{
-//            goToNew()
-//        }
     }
 
     private  fun loadFragment(fragment: Fragment){

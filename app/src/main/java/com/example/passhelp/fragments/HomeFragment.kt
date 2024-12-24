@@ -47,10 +47,27 @@ class HomeFragment : Fragment() {
         btnNewSecret = view.findViewById(R.id.btnNewSecret)
         rclVwSecrets = view.findViewById(R.id.lsSecrets)
         rclVwSecrets.layoutManager = LinearLayoutManager(context)
-        val parentFragMan =  getParentFragmentManager()
+
         btnNewSecret.setOnClickListener{
             goToNew()
         }
+
+    }
+
+    fun goToNew(){
+        val intent = Intent(context, ActivityNewSecret::class.java)
+        startActivity(intent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        //Toast.makeText(context,"Started",Toast.LENGTH_LONG).show()
+        loadMySecrets()
+
+    }
+
+    fun loadMySecrets(){
+        val parentFragMan =  getParentFragmentManager()
         context?.let {
             var scretList = buscarListaSecrets(it)
 
@@ -86,11 +103,6 @@ class HomeFragment : Fragment() {
                     secretOptBottomSheet.show(parentFragMan,"SecretItemOptions")
                 })
         };
-    }
-
-    fun goToNew(){
-        val intent = Intent(context, ActivityNewSecret::class.java)
-        startActivity(intent)
     }
 
     private fun showDialogConfirm(
