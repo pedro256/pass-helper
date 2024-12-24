@@ -8,14 +8,6 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
-
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/lsSecrets"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:listitem="@layout/item_secrets" />-->
-
     <FrameLayout
         android:id="@+id/mainFrameContainer"
         android:layout_width="match_parent"
