@@ -12,41 +12,81 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passhelp.adapters.SecretsAdapter
 import com.example.passhelp.dao.SecretsDao
+import com.example.passhelp.fragments.GroupFragment
+import com.example.passhelp.fragments.HomeFragment
+import com.example.passhelp.fragments.ProfileFragment
 import com.example.passhelp.fragments.SecretDetailsBottomSheetFragment
 import com.example.passhelp.fragments.SecretOptionsBottomSheetFragment
 import com.example.passhelp.model.SecretsModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
-    private lateinit var rclVwSecrets:RecyclerView
-    private lateinit var btnNewSecret:TextView
+
+    lateinit var bottomNav : BottomNavigationView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+
+        bottomNav = findViewById(R.id.mainBottomNavigationView);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        loadFragment(HomeFragment())
+
+        bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.menu_home -> {
+                    loadFragment(HomeFragment())
+                    true
+                }
+                R.id.menu_group -> {
+                    loadFragment(GroupFragment())
+                    true
+                }
+                R.id.meun_profile -> {
+                    loadFragment(ProfileFragment())
+                    true
+                }
+                else -> {
+                    loadFragment(HomeFragment())
+                    true
+                }
+            }
+        }
+
         if(!isAuthenticated()){
             goToMain()
         }
 
-        rclVwSecrets=this.findViewById(R.id.lsSecrets)
-        btnNewSecret = this.findViewById(R.id.btnNew)
+//        rclVwSecrets=this.findViewById(R.id.lsSecrets)
+//        btnNewSecret = this.findViewById(R.id.btnNew)
 
-        rclVwSecrets.layoutManager = LinearLayoutManager(this)
-
-
-        btnNewSecret.setOnClickListener{
-            goToNew()
-        }
+//        rclVwSecrets.layoutManager = LinearLayoutManager(this)
+//
+//
+//        btnNewSecret.setOnClickListener{
+//            goToNew()
+//        }
     }
+
+    private  fun loadFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.mainFrameContainer,fragment)
+        transaction.commit()
+    }
+
     fun goToNew(){
         val intent = Intent(this,ActivityNewSecret::class.java)
         startActivity(intent)
@@ -78,36 +118,36 @@ class HomeActivity : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
-        val listSecret = buscarListaSecrets()
-        rclVwSecrets.adapter = SecretsAdapter(listSecret,
-            onItemAreaClick = { secret:SecretsModel ->
-                val secretDetailsBttSheet = SecretDetailsBottomSheetFragment(secret)
-                secretDetailsBttSheet.show(supportFragmentManager,"SecretItemOptions")
-            },
-            onItemOptionsClick = { secret:SecretsModel ->
-                val secretOptBottomSheet = SecretOptionsBottomSheetFragment(secret)
-                secretOptBottomSheet.setOnEditClickListener {
-                    showDialogConfirm(
-                        onClickConfirm = {
-                            Toast.makeText(this,"Editar",Toast.LENGTH_SHORT).show()
-                        },
-                        onClickCancel = {}
-                    )
-                }
-                secretOptBottomSheet.setOnDeleteClickListener { id:Int ->
-                    showDialogConfirm(
-                        onClickConfirm = {
-                            val secretDao = SecretsDao(this);
-                            secretDao.deleteSecret(id)
-                            this.onStart()
-                            secretOptBottomSheet.dismiss()
-                        },
-                        onClickCancel = {}
-                    )
-
-                }
-                secretOptBottomSheet.show(supportFragmentManager,"SecretItemOptions")
-            })
+//        val listSecret = buscarListaSecrets()
+//        rclVwSecrets.adapter = SecretsAdapter(listSecret,
+//            onItemAreaClick = { secret:SecretsModel ->
+//                val secretDetailsBttSheet = SecretDetailsBottomSheetFragment(secret)
+//                secretDetailsBttSheet.show(supportFragmentManager,"SecretItemOptions")
+//            },
+//            onItemOptionsClick = { secret:SecretsModel ->
+//                val secretOptBottomSheet = SecretOptionsBottomSheetFragment(secret)
+//                secretOptBottomSheet.setOnEditClickListener {
+//                    showDialogConfirm(
+//                        onClickConfirm = {
+//                            Toast.makeText(this,"Editar",Toast.LENGTH_SHORT).show()
+//                        },
+//                        onClickCancel = {}
+//                    )
+//                }
+//                secretOptBottomSheet.setOnDeleteClickListener { id:Int ->
+//                    showDialogConfirm(
+//                        onClickConfirm = {
+//                            val secretDao = SecretsDao(this);
+//                            secretDao.deleteSecret(id)
+//                            this.onStart()
+//                            secretOptBottomSheet.dismiss()
+//                        },
+//                        onClickCancel = {}
+//                    )
+//
+//                }
+//                secretOptBottomSheet.show(supportFragmentManager,"SecretItemOptions")
+//            })
     }
 
     private fun showDialogConfirm(

@@ -1,5 +1,6 @@
 package com.example.passhelp
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.passhelp.dao.UserDao
 import com.example.passhelp.model.UserModel
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,6 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun checkAuthentication(){
+
         var auth = userDao.authenticateUser(
             UserModel(0,"",
                 txtUsername.text.toString(),
@@ -75,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             ))
         if(auth.message!=null && auth.message != ""){
             Toast.makeText(this,auth.message,Toast.LENGTH_LONG).show()
+
         }
         Log.i("informação",auth.toString())
         if(auth.authenticated){

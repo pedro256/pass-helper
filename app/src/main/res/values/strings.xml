@@ -23,5 +23,10 @@
     <string name="label_confirm">Confirmar</string>
     <string name="label_cancel">Cancelar</string>
     <string name="label_details">Detalhes</string>
+    <string name="menu_title_home">Principal</string>
+    <string name="menu_title_group">Grupos</string>
+    <string name="menu_title_me">Perfil</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
