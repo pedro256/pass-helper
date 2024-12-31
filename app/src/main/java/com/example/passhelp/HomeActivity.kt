@@ -45,6 +45,9 @@ class HomeActivity : AppCompatActivity() {
         }
         loadFragment(HomeFragment())
 
+        val sharedPreferences = getSharedPreferences("passhelper", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getInt("userId",0);
+
         bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
@@ -52,7 +55,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_group -> {
-                    loadFragment(GroupFragment())
+                    loadFragment(GroupFragment(userId))
                     true
                 }
                 R.id.meun_profile -> {

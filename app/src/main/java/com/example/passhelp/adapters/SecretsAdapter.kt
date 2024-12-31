@@ -15,9 +15,9 @@ class SecretsAdapter(
     private val onItemAreaClick: (SecretsModel) -> Unit,
     private val onItemOptionsClick: (SecretsModel) -> Unit,
     ):
-    RecyclerView.Adapter<SecretsAdapter.ContactViewHolder>() {
+    RecyclerView.Adapter<SecretsAdapter.SecretItemViewHolder>() {
 
-    inner class ContactViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class SecretItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titleTxt: TextView = view.findViewById(R.id.iTitleSecret)
         val usernameTxt: TextView = view.findViewById(R.id.iUsernameSecret)
         val areaInfo:LinearLayout = view.findViewById(R.id.area_secret_info)
@@ -39,17 +39,17 @@ class SecretsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SecretItemViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_secrets, parent, false)
-        return ContactViewHolder(view)
+        return SecretItemViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SecretItemViewHolder, position: Int) {
         val secret = list[position]
         holder.titleTxt.text = secret.title
         holder.usernameTxt.text = secret.username
