@@ -1,5 +1,13 @@
 # Help you to remember your secrets
 save your passwords in a simple app
+
+# tags
+
+- Recycleview
+- SQLite
+- Fragment
+- BottomFragment
+
 ## preview
 
 
